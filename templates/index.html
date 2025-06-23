@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Deteksi Kendaraan - Upload Video</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon Mobil (opsional, pastikan file di static/) -->
+     <link rel="icon" type="image/png" href="{{ url_for('static', filename='mobil_ikon.png') }}">
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f6f6fb;
+        }
+        .center-box {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .upload-btn {
+            background: #ec2227;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 600;
+            padding: 22px 48px;
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 4px 18px rgba(236,34,39,0.1);
+            transition: background 0.15s;
+        }
+        .upload-btn:hover {
+            background: #d60d13;
+            color: white;
+        }
+        .drag-drop {
+            border: 2px dashed #d0d0d8;
+            border-radius: 16px;
+            margin-top: 18px;
+            padding: 40px 20px;
+            text-align: center;
+            background: #fff;
+        }
+        .logo-kendaraan {
+            font-weight: bold;
+            color: #ec2227;
+            font-size: 2rem;
+            letter-spacing: -1px;
+            font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+        }
+        .refresh-btn-navbar {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: #ec2227;
+            background: #fff;
+            border: 2px solid #ec2227;
+            border-radius: 8px;
+            padding: 6px 20px 6px 14px;
+            margin-left: 16px;
+            display: flex;
+            align-items: center;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+            box-shadow: 0 2px 8px rgba(236,34,39,0.05);
+            text-decoration: none;
+        }
+        .refresh-btn-navbar:hover, .refresh-btn-navbar:focus {
+            background: #ec2227;
+            color: #fff;
+            border-color: #d60d13;
+            text-decoration: none;
+        }
+        .refresh-btn-navbar .refresh-ico {
+            font-size: 1.25em;
+            margin-right: 7px;
+        }
+        .footer {
+            color: #999;
+            font-size: 0.96rem;
+            text-align: center;
+            margin-top: 60px;
+        }
+        .download-link {
+            font-size: 1.15rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-white shadow-sm mb-4">
+        <div class="container d-flex justify-content-between align-items-center">
+            <span class="logo-kendaraan">🚗 Deteksi Kendaraan</span>
+            <a href="{{ url_for('reset') }}" class="refresh-btn-navbar">
+                <span class="refresh-ico">🔄</span> Refresh
+            </a>
+        </div>
+    </nav>
+
+    <div class="container center-box">
+        <div class="col-12 col-md-8 col-lg-6">
+            <h2 class="mb-3 fw-bold text-center">Upload Video untuk Deteksi Kendaraan</h2>
+            <div class="mb-4 text-center text-secondary" style="font-size:1.15rem;">
+                Sistem deteksi otomatis kendaraan pada video jalan raya.
+            </div>
+            {% if error %}
+            <div class="alert alert-danger text-center">{{ error }}</div>
+            {% endif %}
+            <form action="/" method="post" enctype="multipart/form-data" id="upload-form">
+                <div class="drag-drop mb-3" id="drag-drop-area">
+                    <input type="file" name="video" accept="video/*" id="file-input" style="display:none;" required>
+                    <button type="button" class="upload-btn" onclick="document.getElementById('file-input').click();">
+                        Pilih File Video
+                    </button>
+                    <div class="mt-3 text-muted" id="file-name">atau drag & drop video ke sini</div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-danger btn-lg px-5" id="upload-btn">Upload & Proses</button>
+                </div>
+            </form>
+
+            {% if output_video %}
+                <div class="mt-5 text-center">
+                    <div class="mb-2 fw-bold">Hasil Deteksi Siap Diunduh:</div>
+                    <a href="{{ url_for('download_file', filename=output_video) }}"
+                       class="download-link btn btn-success btn-lg"
+                       id="download-btn">
+                        ⬇️ Download Video Hasil
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Modal Loading -->
+    <div class="modal fade" id="loadingModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background:transparent; border:none; box-shadow:none;">
+          <div class="d-flex flex-column align-items-center p-4 bg-white rounded-4">
+            <div class="spinner-border text-danger mb-3" style="width:3rem;height:3rem;" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <h5 class="fw-bold mb-0">Tunggu</h5>
+            <div class="text-muted mt-1">Video sedang diproses...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+        &copy; {{ 2025 }} Deteksi Kendaraan &middot; Created with Flask
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Tampilkan nama file setelah dipilih
+        const fileInput = document.getElementById('file-input');
+        const fileNameDiv = document.getElementById('file-name');
+        fileInput.addEventListener('change', function(){
+            if(fileInput.files.length){
+                fileNameDiv.textContent = fileInput.files[0].name;
+            } else {
+                fileNameDiv.textContent = 'atau drag & drop video ke sini';
+            }
+        });
+        // Drag & drop area
+        const dragDropArea = document.getElementById('drag-drop-area');
+        dragDropArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            dragDropArea.style.borderColor = '#ec2227';
+        });
+        dragDropArea.addEventListener('dragleave', function(e) {
+            dragDropArea.style.borderColor = '#d0d0d8';
+        });
+        dragDropArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            dragDropArea.style.borderColor = '#d0d0d8';
+            if(e.dataTransfer.files.length){
+                fileInput.files = e.dataTransfer.files;
+                fileInput.dispatchEvent(new Event('change'));
+            }
+        });
+
+        // Tampilkan modal loading saat submit
+        document.getElementById('upload-form').addEventListener('submit', function(e){
+            const modal = new bootstrap.Modal(document.getElementById('loadingModal'));
+            modal.show();
+            document.getElementById('upload-btn').disabled = true;
+        });
+
+        // Reset halaman ke awal setelah download video selesai diklik
+        const downloadBtn = document.getElementById('download-btn');
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', function() {
+                setTimeout(function() {
+                    window.location = '/reset';
+                }, 500); 
+            });
+        }
+        // diatas untuk mengatur waktu berapa lama web akan terfrest
+    </script>
+</body>
+</html>
