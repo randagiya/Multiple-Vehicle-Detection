@@ -61,3 +61,9 @@ This project detects and counts vehicles (cars, motorbikes, trucks, buses) on a 
 ├── venv/ # Python virtual environment
 └── pycache/ # Python cache files (auto-generated)
 ```
+
+
+
+
+> 📚 This project was initially based on and inspired by  
+> [Subhadip7/yolov8-multiple-vehicle-detection](https://github.com/Subhadip7/yolov8-multiple-vehicle-detection).
