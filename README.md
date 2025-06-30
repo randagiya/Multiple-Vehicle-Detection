@@ -40,4 +40,23 @@ This project detects and counts vehicles (cars, motorbikes, trucks, buses) on a 
 ---
 
 ## 📁 Project Structure
+UAS/
+├── app.py # Main Flask application
+├── mainh.py # Core logic for video processing and vehicle detection
+├── tracker.py # Assigns unique IDs to detected vehicles (tracking logic)
+├── coco.txt # List of object labels used by YOLO
+├── yolov8s.pt # Pre-trained YOLOv8 model (not shown above but assumed)
+├── requirements.txt # Python dependencies
+├── README.md # Project documentation
 
+├── templates/ # HTML templates for the web interface
+│ └── index.html
+
+├── static/ # Static files used by the website
+│ └── mobil_ikon.png
+
+├── uploads/ # Temporarily stores uploaded videos
+├── outputs/ # Stores processed videos
+├── video test/ # Test video samples
+├── venv/ # Python virtual environment
+└── pycache/ # Python cache files (auto-generated)
