@@ -40,7 +40,7 @@ This project detects and counts vehicles (cars, motorbikes, trucks, buses) on a 
 ---
 
 ## 📁 Project Structure
-'''UAS/
+```UAS/
 ├── app.py # Main Flask application
 ├── mainh.py # Core logic for video processing and vehicle detection
 ├── tracker.py # Assigns unique IDs to detected vehicles (tracking logic)
@@ -59,4 +59,5 @@ This project detects and counts vehicles (cars, motorbikes, trucks, buses) on a 
 ├── outputs/ # Stores processed videos
 ├── video test/ # Test video samples
 ├── venv/ # Python virtual environment
-└── pycache/ # Python cache files (auto-generated)'''
+└── pycache/ # Python cache files (auto-generated)
+```
