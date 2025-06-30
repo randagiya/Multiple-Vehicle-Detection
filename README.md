@@ -45,9 +45,9 @@ This project detects and counts vehicles (cars, motorbikes, trucks, buses) on a 
 ├── mainh.py # Core logic for video processing and vehicle detection
 ├── tracker.py # Assigns unique IDs to detected vehicles (tracking logic)
 ├── coco.txt # List of object labels used by YOLO
-├── yolov8s.pt # Pre-trained YOLOv8 model (not shown above but assumed)
+├── yolov8s.pt # Pre-trained YOLOv8 model 
 ├── requirements.txt # Python dependencies
-├── README.md # Project documentation
+├── README.md 
 
 ├── templates/ # HTML templates for the web interface
 │ └── index.html
