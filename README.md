@@ -1,34 +1,43 @@
-"# multiple-vehicle-detection" 
-# Multiple-Vehicle-Detection
-This is a project about detecting and counting vehicles passing on the highway which can already detect cars, motorbikes, trucks, buses.
+# Multiple Vehicle Detection
 
-how to run the web:
-1. run number 3 if exited (deactivated) from venv
-2. python.py application
-3. click the link or "http://127.0.0.1:5000" (to refresh the web manually ctrl+s in app.py)
+This project detects and counts vehicles (cars, motorbikes, trucks, buses) on a highway using YOLOv8 and Flask for web integration.
 
-how to make it:
-1. create a structure from the project
-2. python3 -m venv venv (this is to store the library)
-3. venv\Scripts\Activate or source venv/bin/activate (this is to activate the library)
-4. run pip install -r requirements.txt on the terminal
-5. then run the command "how to run the web"
+---
 
-structure:
-UAS/
-│
-├── __pycache__/
-├── outputs/                 # to temporarily save the processed video
-├── static/                  # to save images needed by the website
-│   └── mobil_ikon.png
-├── templates/               # to save html from the website
-│   └── index.html
-├── uploads/                  # to temporarily save the video that will be processed from website input
-├── venv/                     # Virtual environment
-├── video test/               # Virtual environment (tidak perlu dikirim saat deploy)
-│
-├── app.py                   # main file to run and link buttons, other files, and folders
-├── coco.txt                 # to store a list of object tables from the yolo model
-├── mainh.py                 #file which is the core logic for vehicle detection from video, one of which is the file that uses                               tracker.py for processing
-├── tracker.py               #file to track a car or a file that can be called to give a unique ID to an object
-├── .......
+## 🚀 How to Run the Web
+
+1. **Activate Virtual Environment**  
+   If you haven't activated the virtual environment, do:
+   - On Windows:  
+     `venv\Scripts\activate`
+   - On Linux/Mac:  
+     `source venv/bin/activate`
+
+2. **Install Dependencies**  
+   Run:  
+   `pip install -r requirements.txt`
+
+3. **Run the Web Application**  
+   Run the Flask app:  
+   `python app.py`
+
+4. **Access the Website**  
+   Open: [http://127.0.0.1:5000](http://127.0.0.1:5000)  
+   *(To refresh manually: save `app.py` with Ctrl+S if using auto-reloader)*
+
+---
+
+## 🛠 How to Set Up
+
+1. Clone or create the project structure
+2. Create virtual environment:  
+   `python -m venv venv`
+3. Activate the environment (see step 1 above)
+4. Install requirements:  
+   `pip install -r requirements.txt`
+5. Run the web (see "How to Run the Web")
+
+---
+
+## 📁 Project Structure
+
